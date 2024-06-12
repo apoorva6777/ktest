@@ -7,8 +7,6 @@ metadata:
     kubernetes.io/ingress.class: istio
     argocd.argoproj.io/sync-wave: "6"
 spec:
-  tls:
-  - secretName: tls-secret
   rules:
   - http:
       paths:
