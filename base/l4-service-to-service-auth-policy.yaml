@@ -1,8 +1,10 @@
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: productpage-viewer
-  namespace: dev
+  name: productpage-viewer-1
+  namespace: test_base_ns
+  annotations:
+    argocd.argoproj.io/sync-wave: "8"
 spec:
   selector:
     matchLabels:
@@ -18,8 +20,10 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: productpage-viewer
-  namespace: dev
+  name: productpage-viewer-2
+  namespace: test_base_ns
+  annotations:
+    argocd.argoproj.io/sync-wave: "8"
 spec:
   selector:
     matchLabels:
@@ -29,13 +33,16 @@ spec:
   - from:
     - source:
         principals:
-        - cluster.local/ns/dev/sa/product-service-account
+        - cluster.local/ns/test_base_ns/sa/product-service-account
+        - cluster.local/ns/test_base_ns/sa/waypoint
 --- 
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: productpage-viewer
-  namespace: dev
+  name: productpage-viewer-3
+  namespace: test_base_ns
+  annotations:
+    argocd.argoproj.io/sync-wave: "8"
 spec:
   selector:
     matchLabels:
@@ -45,4 +52,5 @@ spec:
   - from:
     - source:
         principals:
-        - cluster.local/ns/dev/sa/product-service-account
+        - cluster.local/ns/test_base_ns/sa/product-service-account
+        - cluster.local/ns/test_base_ns/sa/waypoint

@@ -2,19 +2,80 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- ../../base/prod-deployment-scripts
+- ../../base
+
+namespace: prod
 
 replicas:
 - name: details-deployment
   count: 3
-
-replicas:
 - name: ratings-deployment
   count: 3
-
-replicas:
 - name: productpage-deployment
   count: 3
 
-
-
+patches:
+- target:
+    kind: AuthorizationPolicy
+    name: productpage-viewer-2
+  patch: |-
+    - op: replace
+      path: /metadata/namespace
+      value: prod
+    - op: replace
+      path: /spec/rules/0/from/0/source/principals/0
+      value: cluster.local/ns/prod/sa/product-service-account
+    - op: replace
+      path: /spec/rules/0/from/0/source/principals/1
+      value: cluster.local/ns/prod/sa/waypoint
+- target:
+    kind: AuthorizationPolicy
+    name: productpage-viewer-3
+  patch: |-
+    - op: replace
+      path: /metadata/namespace
+      value: prod
+    - op: replace
+      path: /spec/rules/0/from/0/source/principals/0
+      value: cluster.local/ns/prod/sa/product-service-account
+    - op: replace
+      path: /spec/rules/0/from/0/source/principals/1
+      value: cluster.local/ns/prod/sa/waypoint
+- target:
+    kind: AuthorizationPolicy
+    name: productpage-viewer-1
+  patch: |-
+    - op: replace
+      path: /metadata/namespace
+      value: prod
+- target:
+    kind: ClusterRoleBinding
+    name: sa-crb
+  patch: |-
+    - op: replace
+      path: /metadata/name
+      value: prod-sa-crb
+    - op: replace
+      path: /metadata/namespace
+      value: prod
+- target:
+    kind: HorizontalPodAutoscaler
+    name: ratings-deployment-hpa
+  patch: |-
+    - op: replace
+      path: /spec/minReplicas
+      value: 3
+- target:
+    kind: HorizontalPodAutoscaler
+    name: productpage-deployment-hpa
+  patch: |-
+    - op: replace
+      path: /spec/minReplicas
+      value: 3
+- target:
+    kind: HorizontalPodAutoscaler
+    name: details-deployment-hpa
+  patch: |-
+    - op: replace
+      path: /spec/minReplicas
+      value: 3

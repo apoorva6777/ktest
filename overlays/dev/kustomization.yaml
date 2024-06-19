@@ -2,19 +2,59 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- ../../base/dev-deployment-scripts
+- ../../base
+
+namespace: dev
 
 replicas:
 - name: details-deployment
   count: 2
-
-replicas:
 - name: ratings-deployment
   count: 2
-
-replicas:
 - name: productpage-deployment
   count: 2
 
-
-
+patches:
+- target:
+    kind: AuthorizationPolicy
+    name: productpage-viewer-2
+  patch: |-
+    - op: replace
+      path: /metadata/namespace
+      value: dev
+    - op: replace
+      path: /spec/rules/0/from/0/source/principals/0
+      value: cluster.local/ns/dev/sa/product-service-account
+    - op: replace
+      path: /spec/rules/0/from/0/source/principals/1
+      value: cluster.local/ns/dev/sa/waypoint
+- target:
+    kind: AuthorizationPolicy
+    name: productpage-viewer-3
+  patch: |-
+    - op: replace
+      path: /metadata/namespace
+      value: dev
+    - op: replace
+      path: /spec/rules/0/from/0/source/principals/0
+      value: cluster.local/ns/dev/sa/product-service-account
+    - op: replace
+      path: /spec/rules/0/from/0/source/principals/1
+      value: cluster.local/ns/dev/sa/waypoint
+- target:
+    kind: AuthorizationPolicy
+    name: productpage-viewer-1
+  patch: |-
+    - op: replace
+      path: /metadata/namespace
+      value: dev
+- target:
+    kind: ClusterRoleBinding
+    name: sa-crb
+  patch: |-
+    - op: replace
+      path: /metadata/name
+      value: dev-sa-crb
+    - op: replace
+      path: /metadata/namespace
+      value: dev

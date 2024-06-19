@@ -1,8 +1,8 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: dev-sa-crb
-  namespace: dev
+  name: sa-crb
+  namespace: test_base_ns
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 roleRef:
@@ -12,10 +12,10 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: details-service-account
-  namespace: dev
+  namespace: test_base_ns
 - kind: ServiceAccount
   name: product-service-account
-  namespace: dev
+  namespace: test_base_ns
 - kind: ServiceAccount
   name: ratings-service-account
-  namespace: dev
+  namespace: test_base_ns
