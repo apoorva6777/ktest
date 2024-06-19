@@ -66,7 +66,7 @@ echo "cluster metric deployed"
 
 echo "Deploying cluster autoscaler on cluster"
 
-kubectl apply -f autoscaler.yaml
+kubectl apply -f cluster-autoscaler.yaml
 sleep 50
 echo "Printing status of cluster autoscaler"
 kubectl -n kube-system get cm cluster-autoscaler-status -oyaml    
