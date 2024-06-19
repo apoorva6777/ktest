@@ -72,6 +72,8 @@ echo "Printing status of cluster autoscaler"
 kubectl -n kube-system get cm cluster-autoscaler-status -oyaml    
 echo "Cluster Autoscaler deployed"
 
+
+
 cd ..
 cd deploy
 
