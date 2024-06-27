@@ -1,22 +1,22 @@
-# apiVersion: security.istio.io/v1beta1
-# kind: AuthorizationPolicy
-# metadata:
-#   name: productpage-viewer
-#   namespace: test_base_ns
-#   annotations:
-#     argocd.argoproj.io/sync-wave: "8"
-# spec:
-#   targetRefs:
-#   - kind: Service
-#     group: ""
-#     name: productpage
-#   action: ALLOW
-#   rules:
-#   - from:
-#     - source:
-#         principals:
-#         - cluster.local/ns/istio-ingress/sa/istio-ingressgateway-service-account
-#     to:
-#     - operation:
-#         methods: ["GET"]
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: productpage-viewer
+  namespace: test_base_ns
+  annotations:
+    argocd.argoproj.io/sync-wave: "8"
+spec:
+  targetRefs:
+  - kind: Service
+    group: ""
+    name: productpage
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/istio-ingress/sa/istio-ingressgateway-service-account
+    to:
+    - operation:
+        methods: ["GET"]
 
