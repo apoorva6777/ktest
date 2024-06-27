@@ -16,6 +16,8 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "7"
 spec:
+  tls:
+  - secretName: tls-secret
   ingressClassName: istio
   rules:
   - http:
