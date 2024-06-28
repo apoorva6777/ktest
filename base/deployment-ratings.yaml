@@ -55,7 +55,7 @@ metadata:
   name: ratings-deployment-hpa
   namespace: test_base_ns
   annotations:
-    argocd.argoproj.io/sync-wave: "7"
+    argocd.argoproj.io/sync-wave: "6"
 spec:
   minReplicas: 2
   maxReplicas: 5
