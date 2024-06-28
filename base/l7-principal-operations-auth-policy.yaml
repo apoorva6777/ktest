@@ -4,7 +4,7 @@ metadata:
   name: productpage-viewer
   namespace: test_base_ns
   annotations:
-    argocd.argoproj.io/sync-wave: "8"
+    argocd.argoproj.io/sync-wave: "7"
 spec:
   targetRefs:
   - kind: Service
